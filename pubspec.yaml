@@ -1,0 +1,30 @@
+name: pharmacy_app
+description: Ahmed Mohi Pharmacy Flutter App
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  webview_flutter: ^4.2.2
+  firebase_core: ^2.14.0
+  firebase_auth: ^4.6.3
+  cloud_firestore: ^4.8.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/www/
+    - assets/www/styles.css
+    - assets/www/script.js
+    - assets/www/firebase.js
+    - assets/www/db.js
+    - assets/www/logo.png
+    - assets/www/manifest.json

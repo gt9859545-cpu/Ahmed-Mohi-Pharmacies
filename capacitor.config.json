@@ -1,0 +1,8 @@
+{
+  "appId": "com.ahmedmohi.pharmacy",
+  "appName": "Ahmed Mohi Pharmacy",
+  "webDir": ".",
+  "server": {
+    "androidScheme": "https"
+  }
+}
