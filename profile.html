@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعديل الحساب - صيدليات أحمد محي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .profile-container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+        .profile-header { text-align: center; margin-bottom: 30px; }
+        .profile-avatar { width: 80px; height: 80px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 15px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--text-muted); }
+        .form-group input { width: 100%; padding: 12px; border: 1.5px solid var(--border-color); border-radius: 8px; font-family: inherit; outline: none; }
+        .form-group input:focus { border-color: var(--primary-color); }
+        .save-btn { width: 100%; background: var(--primary-color); color: white; border: none; padding: 14px; border-radius: 8px; font-weight: 800; font-family: inherit; cursor: pointer; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <img src="../logo.jpg" alt="Logo" onerror="this.src='https://via.placeholder.com/40';">
+            <span>مدير الصيدلية</span>
+        </div>
+        <ul class="sidebar-menu">
+            <a href="index.html" class="menu-item"><i class="fa-solid fa-chart-line"></i><span>لوحة التحكم</span></a>
+            <a href="orders.html" class="menu-item"><i class="fa-solid fa-box-open"></i><span>الطلبات</span></a>
+            <a href="products.html" class="menu-item"><i class="fa-solid fa-pills"></i><span>إدارة الأصناف</span></a>
+            <a href="users.html" class="menu-item"><i class="fa-solid fa-user-shield"></i><span>الموظفين</span></a>
+            <a href="profile.html" class="menu-item active"><i class="fa-solid fa-user-pen"></i><span>الملف الشخصي</span></a>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header class="app-header">
+            <div class="header-title">إعدادات الحساب</div>
+            <div class="header-actions">
+                <div class="admin-profile">
+                    <div class="admin-avatar"><i class="fa-solid fa-user-shield"></i></div>
+                    <div>
+                        <div id="adminNameDisplay" style="font-size: 0.95rem;">جاري التحميل...</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted); cursor: pointer;" onclick="logoutAdmin()">تسجيل الخروج</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <div class="profile-avatar"><i class="fa-solid fa-user-shield"></i></div>
+                    <h2 id="profileFullNameDisplay">اسم الموظف</h2>
+                    <p id="profileRoleDisplay">المسمى الوظيفي</p>
+                </div>
+
+                <div class="form-group">
+                    <label>الاسم الكامل</label>
+                    <input type="text" id="editName">
+                </div>
+                <div class="form-group">
+                    <label>اسم المستخدم</label>
+                    <input type="text" id="editUsername">
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور الجديدة</label>
+                    <input type="password" id="editPassword" placeholder="اتركها فارغة إذا لا تريد التغيير">
+                </div>
+
+                <button class="save-btn" onclick="updateMyProfile()">حفظ التعديلات</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="../shared/db.js"></script>
+    <script src="script.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const session = JSON.parse(localStorage.getItem('admin_session'));
+            if(session) {
+                document.getElementById('editName').value = session.name;
+                document.getElementById('editUsername').value = session.username;
+                document.getElementById('profileFullNameDisplay').innerText = session.name;
+                document.getElementById('profileRoleDisplay').innerText = session.role === 'super_admin' ? 'مدير نظام (Super Admin)' : 'موظف / صيدلي';
+            }
+        });
+
+        function updateMyProfile() {
+            const newName = document.getElementById('editName').value;
+            const newUser = document.getElementById('editUsername').value;
+            const newPass = document.getElementById('editPassword').value;
+
+            if(!newName || !newUser) return alert('الاسم واسم المستخدم مطلوبان');
+
+            const session = JSON.parse(localStorage.getItem('admin_session'));
+            const users = getDB(DB_KEYS.USERS);
+            const idx = users.findIndex(u => u.id === session.id);
+
+            if(idx !== -1) {
+                users[idx].name = newName;
+                users[idx].username = newUser;
+                if(newPass) users[idx].password = newPass;
+
+                setDB(DB_KEYS.USERS, users);
+                localStorage.setItem('admin_session', JSON.stringify(users[idx]));
+                alert('تم تحديث بياناتك بنجاح! سيتم تحديث الصفحة.');
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

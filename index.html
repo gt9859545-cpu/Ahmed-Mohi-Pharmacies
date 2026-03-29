@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإدارة - صيدليات أحمد محي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <img src="../logo.jpg" alt="Logo" onerror="this.src='https://via.placeholder.com/40';">
+            <span>مدير الصيدلية</span>
+        </div>
+        <ul class="sidebar-menu">
+            <a href="index.html" class="menu-item active">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>لوحة التحكم</span>
+            </a>
+            <a href="orders.html" class="menu-item">
+                <i class="fa-solid fa-box-open"></i>
+                <span>الطلبات</span>
+            </a>
+            <a href="chats.html" class="menu-item">
+                <i class="fa-solid fa-comments"></i>
+                <span>المحادثات المباشرة</span>
+            </a>
+            <a href="prescriptions.html" class="menu-item">
+                <i class="fa-solid fa-file-prescription"></i>
+                <span>الروشتات المرفوعة</span>
+            </a>
+            <a href="products.html" class="menu-item">
+                <i class="fa-solid fa-pills"></i>
+                <span>إدارة الأصناف</span>
+            </a>
+            <a href="promos.html" class="menu-item">
+                <i class="fa-solid fa-ticket"></i>
+                <span>رموز الخصم العامة</span>
+            </a>
+            <a href="users.html" class="menu-item">
+                <i class="fa-solid fa-user-shield"></i>
+                <span>الموظفين والصلاحيات</span>
+            </a>
+            <a href="customers.html" class="menu-item">
+                <i class="fa-solid fa-users"></i>
+                <span>العملاء والعروض</span>
+            </a>
+            <a href="profile.html" class="menu-item">
+                <i class="fa-solid fa-user-pen"></i>
+                <span>الملف الشخصي</span>
+            </a>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-title">الرئيسية</div>
+            <div class="header-actions">
+                <a href="../index.html" target="_blank" style="color: var(--primary-color); text-decoration: none; font-weight: 700; font-size: 0.9rem;"><i class="fa-solid fa-store"></i> زيارة المتجر</a>
+                <div class="admin-profile">
+                    <div class="admin-avatar"><i class="fa-solid fa-user-shield"></i></div>
+                    <div>
+                        <div id="adminNameDisplay" style="font-size: 0.95rem;">الإدارة العليا</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted); cursor: pointer;" onclick="logoutAdmin()">تسجيل الخروج</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon icon-blue">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>إجمالي الطلبات (الشهر)</h3>
+                        <div class="stat-value">٣٤٢</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-green">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>المبيعات</h3>
+                        <div class="stat-value">٤٥,٢٠٠ ج.م</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-orange">
+                        <i class="fa-solid fa-file-invoice"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>روشتات معلقة</h3>
+                        <div class="stat-value">١٢</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-purple">
+                        <i class="fa-solid fa-pills"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>أصناف متاحة</h3>
+                        <div class="stat-value">١١,٣٠٠</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders Snippet -->
+            <div class="data-table-container">
+                <div class="table-header">
+                    <div class="table-title">أحدث الطلبات</div>
+                    <div class="table-actions">
+                        <button onclick="window.location.href='orders.html'">عرض الكل <i class="fa-solid fa-arrow-left"></i></button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>رقم الطلب</th>
+                            <th>العميل</th>
+                            <th>التاريخ</th>
+                            <th>المبلغ</th>
+                            <th>الحالة</th>
+                            <th>إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#ORD-9024</td>
+                            <td>مصطفى أحمد</td>
+                            <td>اليوم، ١٠:٣٠ ص</td>
+                            <td>١٢٠ ج.م</td>
+                            <td><span class="status-badge status-pending">قيد التحضير</span></td>
+                            <td>
+                                <button class="action-icon"><i class="fa-solid fa-eye"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-9023</td>
+                            <td>سارة محمد</td>
+                            <td>اليوم، ٠٩:١٥ ص</td>
+                            <td>٤٥٠ ج.م</td>
+                            <td><span class="status-badge status-completed">مكتمل</span></td>
+                            <td>
+                                <button class="action-icon"><i class="fa-solid fa-eye"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="../shared/db.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

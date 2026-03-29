@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة المستخدمين - صيدليات أحمد محي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <img src="../logo.jpg" alt="Logo" onerror="this.src='https://via.placeholder.com/40';">
+            <span>مدير الصيدلية</span>
+        </div>
+        <ul class="sidebar-menu">
+            <a href="index.html" class="menu-item">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>لوحة التحكم</span>
+            </a>
+            <a href="orders.html" class="menu-item">
+                <i class="fa-solid fa-box-open"></i>
+                <span>الطلبات</span>
+            </a>
+            <a href="prescriptions.html" class="menu-item">
+                <i class="fa-solid fa-file-prescription"></i>
+                <span>الروشتات المرفوعة</span>
+            </a>
+            <a href="products.html" class="menu-item">
+                <i class="fa-solid fa-pills"></i>
+                <span>إدارة الأصناف</span>
+            </a>
+            <a href="promos.html" class="menu-item">
+                <i class="fa-solid fa-ticket"></i>
+                <span>رموز الخصم العامة</span>
+            </a>
+            <a href="users.html" class="menu-item active">
+                <i class="fa-solid fa-user-shield"></i>
+                <span>الموظفين والصلاحيات</span>
+            </a>
+            <a href="customers.html" class="menu-item">
+                <i class="fa-solid fa-users"></i>
+                <span>العملاء والعروض</span>
+            </a>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-title">الموظفين والصلاحيات</div>
+            <div class="header-actions">
+                <div class="admin-profile">
+                    <div class="admin-avatar"><i class="fa-solid fa-user-shield"></i></div>
+                    <div>
+                        <div id="adminNameDisplay" style="font-size: 0.95rem;">الإدارة العليا</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted); cursor: pointer;" onclick="logoutAdmin()">تسجيل الخروج</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <div class="data-table-container">
+                <div class="table-header">
+                    <div class="table-title">إدارة طاقم العمل وتوزيع المهام</div>
+                    <div class="table-actions">
+                        <button id="addUserBtn" onclick="document.getElementById('newUserModal').style.display='flex'" style="display:none;"><i class="fa-solid fa-plus"></i> إضافة موظف جديد</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الاسم</th>
+                            <th>اسم المستخدم</th>
+                            <th>المسمى الوظيفي</th>
+                            <th>الحالة</th>
+                            <th>إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="staffTableBody">
+                        <!-- Dynamic -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Permissions Modal -->
+    <div id="permissionsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 30px; border-radius: 16px; width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <div style="font-size: 1.2rem; font-weight: 800; margin-bottom: 5px; color: var(--primary-color);"><i class="fa-solid fa-shield-halved"></i> تعديل صلاحيات الموظف</div>
+            <p id="permUserName" style="margin-bottom: 25px; font-weight: 700; color: var(--text-muted); font-size: 0.95rem;"></p>
+            
+            <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px;">
+                <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 5px 0;">
+                    <input type="checkbox" id="permProducts" style="width: 20px; height: 20px; accent-color: var(--secondary-color);">
+                    <span style="font-weight: 700; font-size: 0.95rem;">صلاحية التعديل على الأصناف والأدوية</span>
+                </label>
+                <div style="height: 1px; background: var(--border-color); width: 100%;"></div>
+                <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 5px 0;">
+                    <input type="checkbox" id="permOrders" style="width: 20px; height: 20px; accent-color: var(--secondary-color);">
+                    <span style="font-weight: 700; font-size: 0.95rem;">صلاحية عرض و إدارة الطلبات</span>
+                </label>
+                <div style="height: 1px; background: var(--border-color); width: 100%;"></div>
+                <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 5px 0;">
+                    <input type="checkbox" id="permRx" style="width: 20px; height: 20px; accent-color: var(--secondary-color);">
+                    <span style="font-weight: 700; font-size: 0.95rem;">صلاحية مراجعة الروشتات</span>
+                </label>
+                <div style="height: 1px; background: var(--border-color); width: 100%;"></div>
+                <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 5px 0;">
+                    <input type="checkbox" id="permPromos" style="width: 20px; height: 20px; accent-color: var(--secondary-color);">
+                    <span style="font-weight: 700; font-size: 0.95rem;">صلاحية إنشاء وحذف أكواد الخصم</span>
+                </label>
+            </div>
+            
+            <div style="display: flex; gap: 10px;">
+                <button onclick="savePermissions()" style="background: var(--primary-color); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; font-family: Tajawal; cursor: pointer; flex: 1;">حفظ وتطبيق</button>
+                <button onclick="document.getElementById('permissionsModal').style.display='none'" style="background: #e2e8f0; color: var(--text-main); border: none; padding: 12px; border-radius: 8px; font-weight: 800; font-family: Tajawal; cursor: pointer; flex: 1;">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- New User Modal -->
+    <div id="newUserModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 30px; border-radius: 16px; width: 90%; max-width: 400px;">
+            <div style="font-size: 1.2rem; font-weight: 800; margin-bottom: 20px;">إنشاء حساب موظف جديد</div>
+            <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px;">
+                <input type="text" id="newStaffName" placeholder="الاسم الكامل" style="padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-family: Tajawal;">
+                <input type="text" id="newStaffUser" placeholder="اسم المستخدم" style="padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-family: Tajawal;">
+                <input type="password" id="newStaffPass" placeholder="كلمة المرور" style="padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-family: Tajawal;">
+                <select id="newStaffRole" style="padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-family: Tajawal;">
+                    <option value="employee">موظف / صيدلي</option>
+                    <option value="super_admin">مدير نظام (Super Admin)</option>
+                </select>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="createNewStaffAccount()" style="background: var(--secondary-color); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; font-family: Tajawal; cursor: pointer; flex: 1;">إنشاء الحساب</button>
+                <button onclick="document.getElementById('newUserModal').style.display='none'" style="background: #e2e8f0; border: none; padding: 12px; border-radius: 8px; font-weight: 800; font-family: Tajawal; cursor: pointer; flex: 1;">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../shared/db.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
